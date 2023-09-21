@@ -26,4 +26,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   web: {
     favicon: "./assets/favicon.png",
   },
+  plugins: ["expo-router"],
+  scheme: "mwc",
 })
