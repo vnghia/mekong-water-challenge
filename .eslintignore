@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.expo/
+.cache/
+.vscode/
+.eslintrc.cjs
+babel.config.js
