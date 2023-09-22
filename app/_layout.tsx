@@ -2,7 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Inter_400Regular, useFonts } from "@expo-google-fonts/inter"
+import {
+  Inter_400Regular,
+  Inter_500Medium,
+  Inter_700Bold,
+  useFonts,
+} from "@expo-google-fonts/inter"
 import { Octicons } from "@expo/vector-icons"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { Overlay, ThemeProvider, createTheme, lightColors } from "@rneui/themed"
@@ -42,6 +47,8 @@ export default () => {
   // Load font
   const [fontsLoaded] = useFonts({
     Inter_400Regular,
+    Inter_500Medium,
+    Inter_700Bold,
   })
   useCallback(async () => {
     if (fontsLoaded) {
