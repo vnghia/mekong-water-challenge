@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient"
+import { useEffect, useRef } from "react"
 import { StyleSheet, Text, View } from "react-native"
-import MapView from "react-native-maps"
+import MapView, { Marker } from "react-native-maps"
 import Svg, {
   Defs,
   ForeignObject,
@@ -8,6 +9,7 @@ import Svg, {
   Path,
   Stop,
 } from "react-native-svg"
+import { useCoordsAndName } from "../../utils/location"
 
 const WaterQualityThemeMap = {
   good: {
@@ -50,6 +52,20 @@ export default () => {
   const waterQualityKey =
     waterQuality >= 8.0 ? "good" : waterQuality >= 4.0 ? "normal" : "bad"
   const waterQualityTheme = WaterQualityThemeMap[waterQualityKey]
+
+  const map = useRef<MapView | null>(null)
+  const coordsAndName = useCoordsAndName(state => state.coordsAndName)
+
+  useEffect(() => {
+    if (coordsAndName && map.current) {
+      map.current.animateToRegion({
+        latitude: coordsAndName.coords.lat,
+        longitude: coordsAndName.coords.lng,
+        latitudeDelta: 0.03,
+        longitudeDelta: 0.03,
+      })
+    }
+  }, [coordsAndName])
 
   return (
     <LinearGradient style={styles.container} {...waterQualityTheme.lg}>
@@ -109,7 +125,16 @@ export default () => {
           Đánh giá: {waterQualityTheme.status}
         </Text>
       </View>
-      <MapView style={styles.mapContainer} mapType="satellite" />
+      <MapView style={styles.mapContainer} ref={map} mapType="satellite">
+        {coordsAndName ? (
+          <Marker
+            coordinate={{
+              latitude: coordsAndName.coords.lat,
+              longitude: coordsAndName.coords.lng,
+            }}
+          />
+        ) : null}
+      </MapView>
     </LinearGradient>
   )
 }
