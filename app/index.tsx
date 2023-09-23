@@ -9,7 +9,7 @@ import Svg, {
   Path,
   Stop,
 } from "react-native-svg"
-import { useCoordsAndName } from "../../utils/location"
+import { useCoordsAndName } from "../utils/location"
 
 const WaterQualityThemeMap = {
   good: {

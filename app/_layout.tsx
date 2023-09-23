@@ -28,6 +28,10 @@ const theme = createTheme({
   },
 })
 
+const TabsLocationHeader = [
+  { path: "", iconName: "home", label: "Tổng quan hôm nay" },
+] as const
+
 SplashScreen.preventAutoHideAsync()
 
 export default () => {
@@ -125,18 +129,21 @@ export default () => {
       </Overlay>
       <HeaderButtonsProvider stackType="js">
         <Tabs>
-          <Tabs.Screen
-            name="home/index"
-            options={{
-              title: coordsAndName?.name,
-              headerTitleStyle: styles.locationName,
-              tabBarShowLabel: false,
-              tabBarIcon: ({ color, size }) => (
-                <Octicons name="home" color={color} size={size} />
-              ),
-              headerRight: locationHeaderRight,
-            }}
-          />
+          {TabsLocationHeader.map(value => (
+            <Tabs.Screen
+              key={value.path}
+              name={`${value.path}index`}
+              options={{
+                title: coordsAndName?.name,
+                headerTitleStyle: styles.locationName,
+                tabBarLabel: value.label,
+                tabBarIcon: ({ color, size }) => (
+                  <Octicons name={value.iconName} color={color} size={size} />
+                ),
+                headerRight: locationHeaderRight,
+              }}
+            />
+          ))}
         </Tabs>
       </HeaderButtonsProvider>
     </ThemeProvider>
