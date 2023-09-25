@@ -7,5 +7,5 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["app", "utils", "app.config.ts", "App.tsx"]
+  "include": ["src", "app.config.ts", "App.tsx"]
 }
