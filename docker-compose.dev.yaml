@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    environment:
+      EXPO_PACKAGER_PROXY_URL:
+      EXPO_PUBLIC_GOOGLE_MAP_API_KEY:
