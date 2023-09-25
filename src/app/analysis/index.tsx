@@ -3,7 +3,12 @@ import { useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { Dropdown } from "react-native-element-dropdown"
 import { ClipPath, Defs, Rect } from "react-native-svg"
-import { VictoryChart, VictoryLine, VictoryZoomContainer } from "victory-native"
+import {
+  VictoryAxis,
+  VictoryChart,
+  VictoryLine,
+  VictoryZoomContainer,
+} from "victory-native"
 import SafeIcon, {
   safeIconAspectRatio,
 } from "../../components/analysis/icons/safe"
@@ -58,6 +63,10 @@ const ClipThreshold = ({ ...props }) => {
   )
 }
 /* eslint-enable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call */
+
+const checkSafe = (value: number, threshold: number, reverse: boolean) => {
+  return reverse ? value < threshold : value > threshold
+}
 
 export default () => {
   const [selectedParameter, setSelectedParameter] =
@@ -166,6 +175,26 @@ export default () => {
               PhysicochemicalParametersProperties[selectedParameter].threshold
             }
           />
+          <VictoryAxis
+            crossAxis
+            style={{
+              tickLabels: {
+                fill: ({ tickValue }: { tickValue: number }) =>
+                  checkSafe(
+                    physicochemicalData[selectedParameter][tickValue - 1],
+                    PhysicochemicalParametersProperties[selectedParameter]
+                      .threshold,
+                    PhysicochemicalParametersProperties[selectedParameter]
+                      .reverse,
+                  )
+                    ? SummaryIconMap.safe.color
+                    : SummaryIconMap.warning.color,
+                fontWeight: ({ tickValue }: { tickValue: number }) =>
+                  tickValue == 13 ? "bolder" : "normal",
+              },
+            }}
+          />
+          <VictoryAxis crossAxis dependentAxis />
         </VictoryChart>
       </View>
     </View>
