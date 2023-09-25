@@ -30,6 +30,7 @@ const theme = createTheme({
 
 const TabsLocationHeader = [
   { path: "", iconName: "home", label: "Tổng quan hôm nay" },
+  { path: "analysis/", iconName: "graph", label: "Phân tích chi tiết" },
 ] as const
 
 SplashScreen.preventAutoHideAsync()
