@@ -3,7 +3,7 @@ import { useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { Dropdown } from "react-native-element-dropdown"
 import { ClipPath, Defs, Rect } from "react-native-svg"
-import { VictoryChart, VictoryLine } from "victory-native"
+import { VictoryChart, VictoryLine, VictoryZoomContainer } from "victory-native"
 import SafeIcon, {
   safeIconAspectRatio,
 } from "../../components/analysis/icons/safe"
@@ -63,8 +63,8 @@ export default () => {
   const [selectedParameter, setSelectedParameter] =
     useState<PhysicochemicalParametersName>("wq")
 
-  const labelX = Array.from({ length: 6 }).map((_, i) =>
-    format(addMonths(new Date(), i), "MM/yy"),
+  const labelX = Array.from({ length: 25 }).map((_, i) =>
+    format(addMonths(new Date(), i - 12), "MM/yy"),
   )
 
   const physicochemicalData: {
@@ -121,6 +121,13 @@ export default () => {
           maxDomain={{
             y: PhysicochemicalParametersProperties[selectedParameter].yMax,
           }}
+          containerComponent={
+            <VictoryZoomContainer
+              allowZoom={false}
+              zoomDimension="x"
+              zoomDomain={{ x: [12, 18] }}
+            />
+          }
         >
           <VictoryLine
             style={{
