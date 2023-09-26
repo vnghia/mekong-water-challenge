@@ -8,4 +8,4 @@ RUN yarn install --immutable --immutable-cache --check-cache
 
 COPY ./ ./
 ENV CI=1
-CMD [ "yarn", "expo", "start", "--no-dev", "--minify" ]
+ENTRYPOINT [ "yarn", "expo", "start", "--no-dev", "--minify", "--offline" ]
