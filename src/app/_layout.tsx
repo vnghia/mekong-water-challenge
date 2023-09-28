@@ -12,6 +12,7 @@ import * as SplashScreen from "expo-splash-screen"
 import { useCallback, useEffect, useState } from "react"
 import { Platform, StyleSheet } from "react-native"
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
+import { SafeAreaProvider } from "react-native-safe-area-context"
 import {
   HeaderButton,
   HeaderButtons,
@@ -98,56 +99,58 @@ export default () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Overlay
-        isVisible={isSearching}
-        animationType="slide"
-        onPressOut={() => setSearching(false)}
-        overlayStyle={styles.searchContainer}
-      >
-        <GooglePlacesAutocomplete
-          placeholder="Tìm địa điểm"
-          onPress={(_, details) => {
-            setCoordsAndName(
-              details!.geometry.location,
-              details!.address_components
-                .slice(0, 2)
-                .map(a => a.short_name)
-                .join(", "),
-            )
-            setSearching(false)
-          }}
-          query={{
-            key: process.env.EXPO_PUBLIC_GOOGLE_MAP_API_KEY,
-            language: "vi",
-            components: "country:vn",
-          }}
-          fetchDetails={true}
-          GooglePlacesDetailsQuery={{
-            fields: "address_components,geometry",
-          }}
-        />
-      </Overlay>
-      <HeaderButtonsProvider stackType="js">
-        <Tabs>
-          {TabsLocationHeader.map(value => (
-            <Tabs.Screen
-              key={value.path}
-              name={`${value.path}index`}
-              options={{
-                title: coordsAndName?.name,
-                headerTitleStyle: styles.locationName,
-                tabBarLabel: value.label,
-                tabBarIcon: ({ color, size }) => (
-                  <Octicons name={value.iconName} color={color} size={size} />
-                ),
-                headerRight: locationHeaderRight,
-              }}
-            />
-          ))}
-        </Tabs>
-      </HeaderButtonsProvider>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ThemeProvider theme={theme}>
+        <Overlay
+          isVisible={isSearching}
+          animationType="slide"
+          onPressOut={() => setSearching(false)}
+          overlayStyle={styles.searchContainer}
+        >
+          <GooglePlacesAutocomplete
+            placeholder="Tìm địa điểm"
+            onPress={(_, details) => {
+              setCoordsAndName(
+                details!.geometry.location,
+                details!.address_components
+                  .slice(0, 2)
+                  .map(a => a.short_name)
+                  .join(", "),
+              )
+              setSearching(false)
+            }}
+            query={{
+              key: process.env.EXPO_PUBLIC_GOOGLE_MAP_API_KEY,
+              language: "vi",
+              components: "country:vn",
+            }}
+            fetchDetails={true}
+            GooglePlacesDetailsQuery={{
+              fields: "address_components,geometry",
+            }}
+          />
+        </Overlay>
+        <HeaderButtonsProvider stackType="js">
+          <Tabs>
+            {TabsLocationHeader.map(value => (
+              <Tabs.Screen
+                key={value.path}
+                name={`${value.path}index`}
+                options={{
+                  title: coordsAndName?.name,
+                  headerTitleStyle: styles.locationName,
+                  tabBarLabel: value.label,
+                  tabBarIcon: ({ color, size }) => (
+                    <Octicons name={value.iconName} color={color} size={size} />
+                  ),
+                  headerRight: locationHeaderRight,
+                }}
+              />
+            ))}
+          </Tabs>
+        </HeaderButtonsProvider>
+      </ThemeProvider>
+    </SafeAreaProvider>
   )
 }
 
