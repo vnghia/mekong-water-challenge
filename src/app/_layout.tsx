@@ -7,9 +7,9 @@ import {
 } from "@expo-google-fonts/inter"
 import { Octicons } from "@expo/vector-icons"
 import { Overlay, ThemeProvider, createTheme, lightColors } from "@rneui/themed"
+import { SplashScreen } from "expo-router"
 import { Tabs } from "expo-router/tabs"
-import * as SplashScreen from "expo-splash-screen"
-import { useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Platform, StyleSheet } from "react-native"
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
 import { SafeAreaProvider } from "react-native-safe-area-context"
@@ -39,16 +39,17 @@ SplashScreen.preventAutoHideAsync()
 
 export default () => {
   // Load font
-  const [fontsLoaded] = useFonts({
+  const [fontsLoaded, fontError] = useFonts({
     Inter_400Regular,
     Inter_500Medium,
     Inter_700Bold,
   })
-  useCallback(async () => {
-    if (fontsLoaded) {
-      await SplashScreen.hideAsync()
+
+  useEffect(() => {
+    if (fontsLoaded || fontError) {
+      SplashScreen.hideAsync()
     }
-  }, [fontsLoaded])
+  }, [fontsLoaded, fontError])
 
   // Location header
   const [isSearching, setSearching] = useState(false)
@@ -95,7 +96,7 @@ export default () => {
     </HeaderButtons>
   )
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded && !fontError) {
     return null
   }
 
