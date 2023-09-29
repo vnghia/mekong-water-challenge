@@ -13,6 +13,7 @@ import { useCallback, useEffect, useState } from "react"
 import { Platform, StyleSheet } from "react-native"
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
 import { SafeAreaProvider } from "react-native-safe-area-context"
+import "react-native-url-polyfill/auto"
 import {
   HeaderButton,
   HeaderButtons,
@@ -147,6 +148,16 @@ export default () => {
                 }}
               />
             ))}
+            <Tabs.Screen
+              name="bot/index"
+              options={{
+                headerShown: false,
+                tabBarLabel: "Tư vấn 1:1",
+                tabBarIcon: ({ color, size }) => (
+                  <Octicons name="dependabot" color={color} size={size} />
+                ),
+              }}
+            />
           </Tabs>
         </HeaderButtonsProvider>
       </ThemeProvider>
