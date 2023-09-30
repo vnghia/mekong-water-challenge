@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
-import OpenAI from "openai"
 import { GiftedChat, IMessage, User } from "react-native-gifted-chat"
 import uuid from "react-native-uuid"
 import { create } from "zustand"
 import { createJSONStorage, persist } from "zustand/middleware"
+import { apiClient } from "./api"
 
 export const UserMap: { [role: string]: User } = {
   bot: {
@@ -14,10 +14,6 @@ export const UserMap: { [role: string]: User } = {
   },
 } as const
 
-const openai = new OpenAI({
-  apiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY,
-})
-
 export const getResponse = async (messages: IMessage[]): Promise<string> => {
   const history = ([] as IMessage[])
     .concat(messages)
@@ -27,14 +23,10 @@ export const getResponse = async (messages: IMessage[]): Promise<string> => {
     .map(value => ({
       role: value.user._id == UserMap.bot._id ? "assistant" : "user",
       content: value.text,
-    })) as OpenAI.Chat.ChatCompletionMessage[]
+    }))
 
-  const chatCompletion = await openai.chat.completions.create({
-    messages: history,
-    model: "gpt-3.5-turbo",
-  })
-
-  return chatCompletion.choices[0].message.content!
+  return (await apiClient.post("/bot", history, { responseType: "text" }))
+    .data as string
 }
 
 type ChatbotMessagesState = {

@@ -13,7 +13,6 @@ import { useEffect, useState } from "react"
 import { Platform, StyleSheet } from "react-native"
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete"
 import { SafeAreaProvider } from "react-native-safe-area-context"
-import "react-native-url-polyfill/auto"
 import {
   HeaderButton,
   HeaderButtons,

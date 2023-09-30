@@ -8,11 +8,17 @@ import { UserMap, getResponse, useChatbotMessages } from "../../utils/chat"
 export default () => {
   const [isReplying, setIsReplying] = useState(false)
 
-  const [messages, addMessageText, addMessages] = useChatbotMessages(state => [
-    state.messages,
-    state.addMessageText,
-    state.addMessages,
-  ])
+  const [messages, addMessageText, addMessages, resetMessages] =
+    useChatbotMessages(state => [
+      state.messages,
+      state.addMessageText,
+      state.addMessages,
+      state.resetMessages,
+    ])
+
+  useEffect(() => {
+    resetMessages()
+  }, [])
 
   useEffect(() => {
     if (isReplying) {
