@@ -18,6 +18,7 @@ import {
   HeaderButtons,
   HeaderButtonsProvider,
 } from "react-navigation-header-buttons"
+import * as DeviceUtils from "../utils/device"
 import * as LocationUtils from "../utils/location"
 
 const theme = createTheme({
@@ -52,17 +53,17 @@ export default () => {
 
   // Location header
   const [isSearching, setSearching] = useState(false)
-  const [coordsAndName, setCoordsAndName] = LocationUtils.useCoordsAndName(
-    state => [state.coordsAndName, state.setCoordsAndName],
-  )
+  const [device, setDeviceCoord] = DeviceUtils.useDevice(state => [
+    state.device,
+    state.setDeviceCoord,
+  ])
 
   useEffect(() => {
     ;(async () => {
-      if (!coordsAndName) {
-        const userCoordsAndName =
-          await LocationUtils.getUserLocationAndName(false)
-        if (userCoordsAndName) {
-          setCoordsAndName(userCoordsAndName.coords, userCoordsAndName.name)
+      if (!device) {
+        const userCoords = await LocationUtils.getUserLocation(false)
+        if (userCoords) {
+          setDeviceCoord(userCoords.lat, userCoords.lng)
         }
       }
     })()
@@ -77,10 +78,9 @@ export default () => {
         }}
         onPress={() => {
           ;(async () => {
-            const userCoordsAndName =
-              await LocationUtils.getUserLocationAndName(true)
-            if (userCoordsAndName) {
-              setCoordsAndName(userCoordsAndName.coords, userCoordsAndName.name)
+            const userCoords = await LocationUtils.getUserLocation(true)
+            if (userCoords) {
+              setDeviceCoord(userCoords.lat, userCoords.lng)
             }
           })()
         }}
@@ -111,12 +111,9 @@ export default () => {
           <GooglePlacesAutocomplete
             placeholder="Tìm địa điểm"
             onPress={(_, details) => {
-              setCoordsAndName(
-                details!.geometry.location,
-                details!.address_components
-                  .slice(0, 2)
-                  .map(a => a.short_name)
-                  .join(", "),
+              setDeviceCoord(
+                details!.geometry.location.lat,
+                details!.geometry.location.lng,
               )
               setSearching(false)
             }}
@@ -127,7 +124,7 @@ export default () => {
             }}
             fetchDetails={true}
             GooglePlacesDetailsQuery={{
-              fields: "address_components,geometry",
+              fields: "geometry",
             }}
           />
         </Overlay>
@@ -138,7 +135,7 @@ export default () => {
                 key={value.path}
                 name={`${value.path}index`}
                 options={{
-                  title: coordsAndName?.name,
+                  title: device?.name,
                   headerTitleStyle: styles.locationName,
                   tabBarLabel: value.label,
                   tabBarIcon: ({ color, size }) => (

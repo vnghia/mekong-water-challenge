@@ -4,6 +4,7 @@
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
+    "mock": "uvicorn main:app --reload --host 0.0.0.0 --app-dir mock",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
