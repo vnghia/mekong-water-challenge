@@ -146,6 +146,17 @@ export default () => {
               />
             ))}
             <Tabs.Screen
+              name="news"
+              options={{
+                headerShown: false,
+                tabBarLabel: "Tin tức cập nhập",
+                tabBarIcon: ({ color, size }) => (
+                  <Octicons name="rss" color={color} size={size} />
+                ),
+                headerRight: locationHeaderRight,
+              }}
+            />
+            <Tabs.Screen
               name="bot/index"
               options={{
                 headerShown: false,

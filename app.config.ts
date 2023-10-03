@@ -28,4 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   plugins: ["expo-router"],
   scheme: "mwc",
+  experiments: {
+    typedRoutes: true,
+  },
 })

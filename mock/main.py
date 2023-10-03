@@ -16,6 +16,10 @@ devices = json.load(open("mock/data/devices.json"))
 devices_map = {device["id"]: device for device in devices}
 device_coordinates = np.array([[device["lat"], device["lng"]] for device in devices])
 device_analyses = json.load(open("mock/data/analyses.json"))
+news_list = json.load(open("mock/data/news.json"))
+contents = json.load(open("mock/data/contents.json"))
+news_map = {news["id"]: news for news in news_list}
+content_map = {content["id"]: content for content in contents}
 
 
 class ChatbotMessage(BaseModel):
@@ -65,3 +69,13 @@ async def get_analyses(device_ids: Annotated[list[str], Query()] = []):
         for device_analysis in device_analyses
         if device_analysis["id"] in device_ids
     ]
+
+
+@app.get("/news")
+async def list_news():
+    return news_list
+
+
+@app.get("/news/{news_id}")
+async def get_news(news_id: str):
+    return news_map[news_id] | content_map[news_id]
