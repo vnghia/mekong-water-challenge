@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cmt-vl",
+    "lat": 10.27786548701695,
+    "lng": 105.9085854939242,
+    "name": "Cầu Mỹ Thuận, Vĩnh Long"
+  },
+  {
+    "id": "ctdt-bl",
+    "lat": 9.294826916280478,
+    "lng": 105.738917196355,
+    "name": "Cầu Tôn Đức Thắng, Bạc Liêu"
+  },
+  {
+    "id": "cbt-bt",
+    "lat": 10.151754236037544,
+    "lng": 106.39010112767893,
+    "name": "Chợ Bến Tranh, Bến Tre"
+  },
+  {
+    "id": "cmp-st",
+    "lat": 9.792443204364561,
+    "lng": 106.05197116691888,
+    "name": "Cồn Mỹ Phước, Sóc Trăng"
+  },
+  {
+    "id": "bdnt-st",
+    "lat": 9.52197342117813,
+    "lng": 106.2176452041402,
+    "name": "Bến đò Nông Trường, Sóc Trăng"
+  },
+  {
+    "id": "cap-dt",
+    "lat": 10.62040403426266,
+    "lng": 105.40599990435727,
+    "name": "Chợ An Phong, Đồng Tháp"
+  }
+]
